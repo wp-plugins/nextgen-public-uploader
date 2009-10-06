@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: nextgen public uploader,nextgen uploader,nextgen gallery,nextgen,gallery,image,upload,photo,picture,visitor,public,uploader
 Requires at least: 2.7
 Tested up to: 2.8.4
-Stable tag: 1.0
+Stable tag: 1.1
 
 NextGEN Public Uploader is an extension to NextGEN Gallery which allows frontend image uploads for your users.
 
@@ -39,6 +39,9 @@ No, this plugin requires NextGEN Gallery in order to work.
 [NextGEN Public Uploader Support](http://webdevstudios.com/support/wordpress-plugins/ "WordPress Plugins and Support Services")
 
 == Changelog == 
+
+= V1.1 - 5.10.2009 =
+* Fixed SVN Repository.
 
 = V1.0 - 5.10.2009 =
 * NextGEN Public Uploader v1.0 is launched.
