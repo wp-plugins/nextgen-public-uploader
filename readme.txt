@@ -3,7 +3,7 @@ Contributors: wds-scott, williamsba1
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3084056
 Tags: nextgen public uploader,nextgen uploader,nextgen gallery,nextgen,gallery,image,upload,photo,picture,visitor,public,uploader
 Requires at least: 2.7 Tested up to: 2.8.4
-Stable tag: 1.2
+Stable tag: 1.2.1
 
 NextGEN Public Uploader is an extension to NextGEN Gallery which allows frontend image uploads for your users.
 
@@ -13,7 +13,7 @@ The NextGEN Public Uploader plugin for WordPress allows users to upload images f
 
 Get the latest version here - [NextGEN Public Uploader](http://downloads.wordpress.org/plugin/nextgen-public-uploader.1.2.zip "NextGEN Public Uploader")
 
-= NextGEN Public Uploader was built with the help of NextGEN Gallery =
+= NextGEN Public Uploader is an extension to NextGEN Gallery =
 
 [NextGEN Gallery](http://wordpress.org/extend/plugins/nextgen-gallery/ "NextGEN Gallery")
 
@@ -21,7 +21,7 @@ Get the latest version here - [NextGEN Public Uploader](http://downloads.wordpre
 
 [NextGEN Public Uploader Support](http://webdevstudios.com/support/wordpress-plugins/ "WordPress Plugins and Support Services")
 
-Special thanks too Patrick McCoy for his help.
+Special thanks to Patrick McCoy for his help.
 
 == Screenshots ==
 
@@ -64,6 +64,9 @@ If you have installed NextGEN Gallery, please make sure that it is activated.
 [NextGEN Public Uploader Support](http://webdevstudios.com/support/wordpress-plugins/ "WordPress Plugins and Support Services")
 
 == Changelog ==
+
+= V1.2.1 - 10.7.2009 =
+* Bugfix: 404 File not found
 
 = V1.2 - 10.7.2009 =
 * Updates: Options page updated
