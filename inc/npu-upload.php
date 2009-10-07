@@ -206,7 +206,11 @@ if (!class_exists("npuGalleryUpload")) {
             }
             if (!is_user_logged_in()) {
                 $strOutput .= "<div class=\"need_login\">";
-                $strOutput .= "You must be registered and logged in to upload images.";
+				if(get_option('npu_notlogged')) {
+                $strOutput .= get_option('npu_notlogged');
+				} else {
+				$strOutput .= "You must be registered and logged in to upload images.";
+				}
                 $strOutput .= "</div>";
             } else {
                 $strOutput .= "<div id=\"uploadimage\">";
@@ -258,7 +262,13 @@ if (!class_exists("npuGalleryUpload")) {
                                 $this->arrErrorMsg[] = $strReturnMsg;
                             }
                         }
+					
+					if(get_option('npu_upload_success')) {
+					$this->arrImageMsg[] = get_option('npu_upload_success');
+					} else {
 					$this->arrImageMsg[] = "Thank you! Your image has been submitted and is pending review.";
+					}
+
 					$this->sendEmail();
                     }
 
@@ -272,12 +282,20 @@ if (!class_exists("npuGalleryUpload")) {
                             $this->strTimeStamp = $objEXIF->get_date_time();
                         }
                     } else {
+						if(get_option('npu_no_file')) {
+						$this->arrErrorMsg[] = get_option('npu_no_file');
+						} else {
                         $this->arrErrorMsg[] = "You must select a file to upload";
+						}
                     }
                     
                     $this->update_details();
                 } else {
-                    $this->arrErrorMsg[] = "Upload failed!";
+					if(get_option('npu_upload_failed')) {
+                    $this->arrErrorMsg[] = get_option('npu_upload_failed');
+					} else {
+					$this->arrErrorMsg[] = "Upload failed!";
+					}
                 }
 
                 if (count($this->arrErrorMsg) > 0 && (is_array($this->arrImageIds) &&count($this->arrImageIds) > 0)) {

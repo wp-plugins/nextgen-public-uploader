@@ -23,7 +23,7 @@ class UploaderNggAdmin extends nggAdmin
         $galleryID = (int) $_POST['galleryselect'];
 
         if ($galleryID == 0) {
-            nggGallery::show_error(__('No gallery selected !','nggallery'));
+            nggGallery::show_error(__('No gallery selected.','nggallery'));
             return;
         }
 
@@ -31,7 +31,7 @@ class UploaderNggAdmin extends nggAdmin
         $gallerypath = $wpdb->get_var("SELECT path FROM $wpdb->nggallery WHERE gid = '$galleryID' ");
         
         if (!$gallerypath){
-            nggGallery::show_error(__('Failure in database, no gallery path set !','nggallery'));
+            nggGallery::show_error(__('Failure in database, no gallery path set.','nggallery'));
             return;
         }
 
@@ -52,7 +52,7 @@ class UploaderNggAdmin extends nggAdmin
                 // check for allowed extension and if it's an image file
                 $ext = array('jpeg', 'jpg', 'png', 'gif');
                 if ( !in_array($filepart['extension'], $ext) || !@getimagesize($temp_file) ){
-                    nggGallery::show_error('<strong>'.$_FILES[$key]['name'].' </strong>'.__('is no valid image file!','nggallery'));
+                    nggGallery::show_error('<strong>'.$_FILES[$key]['name'].' </strong>'.__('is not a valid file.','nggallery'));
                     continue;
                 }
 
@@ -78,7 +78,7 @@ class UploaderNggAdmin extends nggAdmin
                     continue;
                 }
                 if (!$this->chmod ($dest_file)) {
-                    nggGallery::show_error(__('Error, the file permissions could not set','nggallery'));
+                    nggGallery::show_error(__('Error, the file permissions could not set.','nggallery'));
                     continue;
                 }
 

@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Public Uploader
 Plugin URI: http://webdevstudios.com/support/wordpress-plugins/nextgen-public-uploader/
 Description: NextGEN Public Uploader is an extension to NextGEN Gallery which allows frontend image uploads for your users.
-Version: 1.2.1
+Version: 1.2.2
 Author: WebDevStudios
 Author URI: http://webdevstudios.com
 
@@ -43,9 +43,12 @@ if(class_exists('nggLoader')) {
 		<h2>NextGEN Public Uploader</h2>
         
         <p><strong>Author:</strong> <a href="http://webdevstudios.com">WebDevStudios</a></p>
-        <p><strong>Current Version:</strong> 1.2.1</p>
-        
+        <p><strong>Current Version:</strong> 1.2.2</p>
+
         <p><strong>Shortcode Examples: </strong><code>[ngg_uploader]</code> or <code>[ngg_uploader id = 1]</code></p>
+
+		<p><strong><a href="http://webdevstudios.com/support/wordpress-plugins/nextgen-public-uploader/">Plugin Homepage</a></strong>
+		<p><strong><a href="http://webdevstudios.com/support/forum/nextgen-public-uploader/">Support Forum</a></strong></p>
         
 		<form method="post" action="options.php">
 		<?php wp_nonce_field('update-options'); ?>
@@ -59,19 +62,51 @@ if(class_exists('nggLoader')) {
         <span class="description">Enter the default gallery ID when using [ngg_uploader].</span>
         </td>
 		</tr>
-        
-        <tr valign="top">
+
+		<tr valign="top">
 		<th scope="row">Notification Email:</th>
 		<td>
         <input type="text" name="npu_notification_email" value="<?php echo get_option('npu_notification_email'); ?>" />
         <span class="description">Enter an email address to be notified when a image has been submitted.</span>
         </td>
 		</tr>
+
+        <tr valign="top">
+		<th scope="row">Not Logged In:</th>
+		<td>
+        <input type="text" name="npu_notlogged" value="<?php echo get_option('npu_notlogged'); ?>" />
+        <span class="description">Message displayed when a user is not logged in.</span>
+        </td>
+		</tr>
+
+		<tr valign="top">
+		<th scope="row">Upload Success:</th>
+		<td>
+        <input type="text" name="npu_upload_success" value="<?php echo get_option('npu_upload_success'); ?>" />
+        <span class="description">Message displayed when an image has been successfully uploaded.</span>
+        </td>
+		</tr>
+
+		<tr valign="top">
+		<th scope="row">No File:</th>
+		<td>
+        <input type="text" name="npu_no_file" value="<?php echo get_option('npu_no_file'); ?>" />
+        <span class="description">Message displayed when no file has been selected.</span>
+        </td>
+		</tr>
+
+		<tr valign="top">
+		<th scope="row">Upload Failed:</th>
+		<td>
+        <input type="text" name="npu_upload_failed" value="<?php echo get_option('npu_upload_failed'); ?>" />
+        <span class="description">Message displayed when an upload has failed.</span>
+        </td>
+		</tr>
 	
 		</table>
 
 		<input type="hidden" name="action" value="update" />
-		<input type="hidden" name="page_options" value="npu_default_gallery, npu_email_option, npu_notification_email" />
+		<input type="hidden" name="page_options" value="npu_default_gallery, npu_email_option, npu_notification_email, npu_notlogged, npu_upload_success, npu_no_file, npu_upload_failed" />
 
 		<p class="submit">
 		<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
