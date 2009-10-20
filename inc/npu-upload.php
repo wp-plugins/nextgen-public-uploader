@@ -1,4 +1,9 @@
 <?php
+
+/* ####################### */
+/* NextGEN Public Uploader */
+/* ####################### */
+
 if (!class_exists("npuGalleryUpload")) {
 
     class npuGalleryUpload
@@ -9,18 +14,25 @@ if (!class_exists("npuGalleryUpload")) {
         public $arrUploadedThumbUrls = false;
         public $arrUploadedImageUrls = false;
         public $arrErrorMsg = array();
+		public $arrImageMsg = array();
+		public $arrErrorMsg_widg = array();
+		public $arrImageMsg_widg = array();
         public $arrImageNames = array();
         public $arrImageMeta = array();
         public $strTitle = false;
         public $strDescription = false;
         public $strKeywords = false;
         public $strTimeStamp = false;
-		public $arrImageMsg = array();
         
         public function __construct()
         {
-            add_shortcode("ngg_uploader", array(&$this, 'shortcode_show_uploader'));
-            //add_action('widgets_init', array(&$this, 'npu_upload_register')); // Enable Widget Uploader
+            add_shortcode("ngg_uploader", array(&$this, 'shortcode_show_uploader')); // Shortcode Uploader
+			
+			// Enable WIdget?
+			
+			if(get_option('npu_widget_uploader_select') == 'Enabled') {
+            add_action('widgets_init', array(&$this, 'npu_upload_register')); // Widget Uploader
+			}
         }
 
         public function npu_upload_register()
@@ -157,10 +169,10 @@ if (!class_exists("npuGalleryUpload")) {
             }
 
             $gal_id = $options[$number]['gal_id'];
-            $this->handleUpload();
+            $this->handleUpload_widget();
             echo $args['before_widget'];
             echo $args['before_title'].$options[$number]['title'].$args['after_title'];
-            $this->display_uploader($gal_id, false);
+            $this->display_uploader_widget($gal_id, false);
             echo $args['after_widget'];
             
         }
@@ -187,9 +199,12 @@ if (!class_exists("npuGalleryUpload")) {
             wp_enqueue_script( 'ngg-progressbar' );
         }
 
+		// display form for shortcode
         public function display_uploader($gal_id, $strDetailsPage = false, $blnShowAltText = true, $echo = true)
         {
+		
             $strOutput = "";
+
             if (count($this->arrErrorMsg) > 0) {
                 $strOutput .= "<div class=\"upload_error\">";
                 foreach ($this->arrErrorMsg as $msg) {
@@ -197,6 +212,7 @@ if (!class_exists("npuGalleryUpload")) {
                 }
                 $strOutput .= "</div>";
             }
+			
 			if (count($this->arrImageMsg) > 0) {
                 $strOutput .= "<div class=\"upload_error\">";
                 foreach ($this->arrImageMsg as $msg) {
@@ -204,7 +220,8 @@ if (!class_exists("npuGalleryUpload")) {
                 }
                 $strOutput .= "</div>";
             }
-            if (!is_user_logged_in()) {
+			
+            if (!is_user_logged_in() && get_option('npu_user_role_select') != 'Visitor') {
                 $strOutput .= "<div class=\"need_login\">";
 				if(get_option('npu_notlogged')) {
                 $strOutput .= get_option('npu_notlogged');
@@ -213,11 +230,15 @@ if (!class_exists("npuGalleryUpload")) {
 				}
                 $strOutput .= "</div>";
             } else {
+				
+				$npu_selected_user_role = get_option('npu_user_role_select');
+				
+				if (current_user_can('level_'. $npu_selected_user_role . '') || get_option('npu_user_role_select') == 'Visitor') {
                 $strOutput .= "<div id=\"uploadimage\">";
                 $strOutput .= "\n\t<form name=\"uploadimage\" id=\"uploadimage_form\" method=\"POST\" enctype=\"multipart/form-data\" accept-charset=\"utf-8\" >";
                 $strOutput .= wp_nonce_field('ngg_addgallery', '_wpnonce', true , false);
                 $strOutput .= "\n\t<div class=\"uploader\">";
-                $strOutput .= "\n\t<input type=\"file\" name=\"imagefiles\" id=\"imagefiles\" size=\"35\"/>";
+                $strOutput .= "\n\t<input type=\"file\" name=\"imagefiles\" id=\"imagefiles\"/>";
                 $strOutput .= "\n</div>";
                 $strOutput .= "\n<input type=\"hidden\" name=\"galleryselect\" value=\"{$gal_id}\">";
 
@@ -227,12 +248,77 @@ if (!class_exists("npuGalleryUpload")) {
                     }
                     $strOutput .= "\n\t</div>";
                 }
-                $strOutput .= "\n\t<div class=\"submit\">";
+                $strOutput .= "\n\t<div class=\"submit\"><br />";
                 $strOutput .= "\n\t\t<input class=\"button-primary\" type=\"submit\" name=\"uploadimage\" id=\"uploadimage_btn\" value=\"Upload image\" />";
                 $strOutput .= "\n\t\t</div>";
                 $strOutput .= "\n</form>";
                 $strOutput .= "\n</div>";
             }
+			}
+            if ($echo) {
+                echo $strOutput;
+            } else {
+                return $strOutput;
+            }
+            
+        }
+		
+		// display form for widget
+		public function display_uploader_widget($gal_id, $strDetailsPage = false, $blnShowAltText = true, $echo = true)
+        {
+		
+            $strOutput = "";
+
+            if (count($this->arrErrorMsg_widg) > 0) {
+                $strOutput .= "<div class=\"upload_error\">";
+                foreach ($this->arrErrorMsg_widg as $msg) {
+                    $strOutput .= $msg;
+                }
+                $strOutput .= "</div>";
+            }
+			
+			if (count($this->arrImageMsg_widg) > 0) {
+                $strOutput .= "<div class=\"upload_error\">";
+                foreach ($this->arrImageMsg_widg as $msg) {
+                    $strOutput .= $msg;
+                }
+                $strOutput .= "</div>";
+            }
+			
+            if (!is_user_logged_in() && get_option('npu_user_role_select') != 'Visitor') {
+                $strOutput .= "<div class=\"need_login\">";
+				if(get_option('npu_notlogged')) {
+                $strOutput .= get_option('npu_notlogged');
+				} else {
+				$strOutput .= "You must be registered and logged in to upload images.";
+				}
+                $strOutput .= "</div>";
+            } else {
+				
+				$npu_selected_user_role = get_option('npu_user_role_select');
+				
+				if (current_user_can('level_'. $npu_selected_user_role . '') || get_option('npu_user_role_select') == 'Visitor') {
+                $strOutput .= "<div id=\"uploadimage\">";
+                $strOutput .= "\n\t<form name=\"uploadimage_widget\" id=\"uploadimage_form_widget\" method=\"POST\" enctype=\"multipart/form-data\" accept-charset=\"utf-8\" >";
+                $strOutput .= wp_nonce_field('ngg_addgallery', '_wpnonce', true , false);
+                $strOutput .= "\n\t<div class=\"uploader\">";
+                $strOutput .= "\n\t<input type=\"file\" name=\"imagefiles\" id=\"imagefiles\"/>";
+                $strOutput .= "\n</div>";
+                $strOutput .= "\n<input type=\"hidden\" name=\"galleryselect\" value=\"{$gal_id}\">";
+
+                if (!$strDetailsPage) {
+                    $strOutput .= "\n\t<div class=\"image_details_textfield\">";
+                    if ($blnShowAltText) {
+                    }
+                    $strOutput .= "\n\t</div>";
+                }
+                $strOutput .= "\n\t<div class=\"submit\"><br />";
+                $strOutput .= "\n\t\t<input class=\"button-primary\" type=\"submit\" name=\"uploadimage_widget\" id=\"uploadimage_btn\" value=\"Upload image\" />";
+                $strOutput .= "\n\t\t</div>";
+                $strOutput .= "\n</form>";
+                $strOutput .= "\n</div>";
+            }
+			}
             if ($echo) {
                 echo $strOutput;
             } else {
@@ -241,6 +327,7 @@ if (!class_exists("npuGalleryUpload")) {
             
         }
 
+		// handle upload for shortcode
         public function handleUpload()
         {	
             global $wpdb;
@@ -249,6 +336,7 @@ if (!class_exists("npuGalleryUpload")) {
             $ngg->options['swfupload'] = false;
 
             if ($_POST['uploadimage']){
+				
                 check_admin_referer('ngg_addgallery');
                 if ($_FILES['MF__F_0_0']['error'] == 0) {
                     $objUploaderNggAdmin = new UploaderNggAdmin();
@@ -268,7 +356,6 @@ if (!class_exists("npuGalleryUpload")) {
 					} else {
 					$this->arrImageMsg[] = "Thank you! Your image has been submitted and is pending review.";
 					}
-
 					$this->sendEmail();
                     }
 
@@ -314,6 +401,81 @@ if (!class_exists("npuGalleryUpload")) {
                 }
             }
         }
+		
+		// handle upload for widget
+		public function handleUpload_widget()
+        {	
+            global $wpdb;
+            require_once(dirname (__FILE__). '/class.npu_uploader.php');
+            require_once(NGGALLERY_ABSPATH . '/lib/meta.php');
+            $ngg->options['swfupload'] = false;
+
+            if ($_POST['uploadimage_widget']){
+				
+                check_admin_referer('ngg_addgallery');
+                if ($_FILES['MF__F_0_0']['error'] == 0) {
+                    $objUploaderNggAdmin = new UploaderNggAdmin();
+                    $messagetext = $objUploaderNggAdmin->upload_images_widget();
+                    $this->arrImageIds = $objUploaderNggAdmin->arrImageIds;
+                    $this->strGalleryPath = $objUploaderNggAdmin->strGalleryPath;
+                    $this->arrImageNames = $objUploaderNggAdmin->arrImageNames;
+                    if (is_array($objUploaderNggAdmin->arrThumbReturn) && count($objUploaderNggAdmin->arrThumbReturn) > 0) {
+                        foreach ($objUploaderNggAdmin->arrThumbReturn as $strReturnMsg) {
+                            if ($strReturnMsg != '1') {
+                                $this->arrErrorMsg_widg[] = $strReturnMsg;
+                            }
+                        }
+					
+					if(get_option('npu_upload_success')) {
+					$this->arrImageMsg_widg[] = get_option('npu_upload_success');
+					} else {
+					$this->arrImageMsg_widg[] = "Thank you! Your image has been submitted and is pending review.";
+					}
+					$this->sendEmail();
+                    }
+
+                    if (is_array($this->arrImageIds) && count($this->arrImageIds) > 0) {
+                        foreach ($this->arrImageIds as $imageId) {
+                            $pic = nggdb::find_image($imageId);
+                            $objEXIF = new nggMeta($pic->imagePath);
+                            $this->strTitle = $objEXIF->get_META('title');
+                            $this->strDescription = $objEXIF->get_META('caption');
+                            $this->strKeywords = $objEXIF->get_META('keywords');
+                            $this->strTimeStamp = $objEXIF->get_date_time();
+                        }
+                    } else {
+						if(get_option('npu_no_file')) {
+						$this->arrErrorMsg_widg[] = get_option('npu_no_file');
+						} else {
+                        $this->arrErrorMsg_widg[] = "You must select a file to upload";
+						}
+                    }
+                    
+                    $this->update_details();
+                } else {
+					if(get_option('npu_upload_failed')) {
+                    $this->arrErrorMsg_widg[] = get_option('npu_upload_failed');
+					} else {
+					$this->arrErrorMsg_widg[] = "Upload failed!";
+					}
+                }
+
+                if (count($this->arrErrorMsg_widg) > 0 && (is_array($this->arrImageIds) &&count($this->arrImageIds) > 0)) {
+                    $gal_id = $_POST['galleryselect'];
+                    foreach ($this->arrImageIds as $intImageId) {
+                        $filename = $wpdb->get_var("SELECT filename FROM $wpdb->nggpictures WHERE pid = '$intImageId' ");
+                        if ($filename) {
+                            $gallerypath = $wpdb->get_var("SELECT path FROM $wpdb->nggallery WHERE gid = '$gal_id' ");
+                            if ($gallerypath){
+                                @unlink(WINABSPATH . $gallerypath . '/thumbs/thumbs_' .$filename);
+                                @unlink(WINABSPATH . $gallerypath . '/' . $filename);
+                            }
+                            $delete_pic = $wpdb->query("DELETE FROM $wpdb->nggpictures WHERE pid = $intImageId");
+                        }
+                    }
+                }
+            }
+        }
 
         public function update_details()
         {
@@ -337,12 +499,19 @@ if (!class_exists("npuGalleryUpload")) {
             }
 
             if (count($arrUpdateFields) > 0) {
+			
+			if (get_option('npu_exclude_select') == "Disabled") {
+				$npu_exclude_id = 0;
+			} else {
+				$npu_exclude_id = 1;
+			}
+				
                 $strUpdateFields = implode(", ", $arrUpdateFields);
                 $pictures = $this->arrImageIds;
                 if (count($pictures) > 0) {
                     foreach( $pictures as $pid ) {
                         $strQuery = "UPDATE $wpdb->nggpictures SET ";
-                        $strQuery .= $strUpdateFields. ", exclude = 1 WHERE pid = $pid";
+                        $strQuery .= $strUpdateFields. ", exclude = $npu_exclude_id WHERE pid = $pid";
                         $wpdb->query($strQuery);
                         $arrTags = explode(',', $this->strKeywords);
                         wp_set_object_terms($pid, $arrTags, 'ngg_tag');

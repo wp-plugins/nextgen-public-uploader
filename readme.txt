@@ -3,7 +3,7 @@ Contributors: wds-scott, williamsba1
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3084056
 Tags: nextgen public uploader,nextgen uploader,nextgen gallery,nextgen,gallery,image,upload,photo,picture,visitor,public,uploader
 Requires at least: 2.7 Tested up to: 2.8.4
-Stable tag: 1.2.2
+Stable tag: 1.3
 
 NextGEN Public Uploader is an extension to NextGEN Gallery which allows frontend image uploads for your users.
 
@@ -11,7 +11,9 @@ NextGEN Public Uploader is an extension to NextGEN Gallery which allows frontend
 
 The NextGEN Public Uploader plugin for WordPress allows users to upload images from the frontend of your blog to a specified gallery. Upon upload the submitted image is marked as "excluded" and an email notificatin will be sent letting you know an image is waiting to be reviewed.
 
-Get the latest version here - [NextGEN Public Uploader](http://downloads.wordpress.org/plugin/nextgen-public-uploader.1.2.2.zip "NextGEN Public Uploader")
+Get the latest version here - [NextGEN Public Uploader](http://downloads.wordpress.org/plugin/nextgen-public-uploader.1.3.zip "NextGEN Public Uploader")
+
+REMEMBER: Always backup your database!
 
 = NextGEN Public Uploader is an extension of NextGEN Gallery =
 
@@ -25,23 +27,27 @@ Special thanks to Patrick McCoy for his help.
 
 == Screenshots ==
 
-1. Screenshot Admin Area
+1. Admin Area
 
-2. Screenshot Upload Form
+2. Upload Form
 
-3. Screenshot Shortcode
+3. Shortcode Example
+
+4. Widget Uploader
 
 == Installation ==
 
 1. Upload the nextgen-public-uploader folder to the plugins directory in your WordPress or WPMU installation
 
-2. Activate the plugin
+2. Activate NextGEN Public Uploader.
 
-3. Add the following shortcode
+3. Drag the NextGEN Public Uploader widget to the desired sidebar or use the shortcode in your pages/posts
 
-= [ngg_uploader id = 1] = 
+View the plugin settings page for shortcode examples.
 
-Where 1 is the ID of the gallery you want to upload images to.
+= For More Information Visit =
+
+[NextGEN Public Uploader Homepage](http://webdevstudios.com/support/wordpress-plugins/nextgen-public-uploader/ "NextGEN Public Uploader")
 
 REMEMBER: This plugin requires NextGEN Gallery in order to work.
 
@@ -56,15 +62,25 @@ No, this plugin requires NextGEN Gallery in order to work.
 
 = Why am I getting the following error? =
   
-* "NextGEN Public Uploader requires NextGEN gallery in order to work. Please deactivate this plugin or activate NextGEN Gallery."
+"NextGEN Public Uploader requires NextGEN gallery in order to work. Please deactivate this plugin or activate NextGEN Gallery."
 
 If you have installed NextGEN Gallery, please make sure that it is activated.
 
 = Still Need Help? Please visit the NextGEN Public Uploader Support Forum =
 
-[NextGEN Public Uploader Support](http://webdevstudios.com/support/wordpress-plugins/ "WordPress Plugins and Support Services")
+[NextGEN Public Uploader Support](http://webdevstudios.com/support/forum/nextgen-public-uploader/ "WordPress Plugins and Support Services")
 
 == Changelog ==
+
+= V1.3 - 10.20.2009 =
+* New Feature: Widget Uploader
+* New Feature: Select which user level can upload
+* Fixed: More than one form can be displayed
+* Updates: More options available via settings page
+* Updates: Readme.txt updated
+* Updates: Check if NextGEN Gallery exists optimized
+* Bugfix: Saving options with WPMU
+
 
 = V1.2.2 - 10.7.2009 =
 * New Feature: Ability to edit messages displayed
