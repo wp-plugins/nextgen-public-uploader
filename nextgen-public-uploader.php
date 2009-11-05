@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Public Uploader
 Plugin URI: http://webdevstudios.com/support/wordpress-plugins/nextgen-public-uploader/
 Description: NextGEN Public Uploader is an extension to NextGEN Gallery which allows frontend image uploads for your users.
-Version: 1.3
+Version: 1.4
 Author: WebDevStudios
 Author URI: http://webdevstudios.com
 
@@ -26,6 +26,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 /*
 == Changelog ==
+
+= V1.4 - 11.5.2009 =
+* New Feature: Image Description
+* Updates: More options available via settings page
+* Updates: Default Gallery Drop-down
+* Updates: Added button to reset default values
+* Updates: Edit more text areas from settings page
+* Bugfix: Fixed bug when saving options
 
 = V1.3 - 10.20.2009 =
 * New Feature: Widget Uploader
@@ -75,9 +83,11 @@ if(class_exists('nggLoader') || in_array( $required_plugin , $plugins )) {
 	}
 	
 	// Hook -> Add Options
-	add_option('npu_default_gallery', '1');
+	add_option('npu_default_gallery', 1);
 	add_option('npu_email_option', '');
-	add_option('npu_notification_email', '');
+	add_option('npu_notification_email', get_option('admin_email'));
+	add_option('npu_upload_button', '');
+	add_option('npu_description_text', '');
 	add_option('npu_notlogged', '');
 	add_option('npu_upload_success', '');
 	add_option('npu_no_file', '');
@@ -85,13 +95,16 @@ if(class_exists('nggLoader') || in_array( $required_plugin , $plugins )) {
 	add_option('npu_widget_uploader_select', 'Enabled');
 	add_option('npu_exclude_select', 'Enabled');
     add_option('npu_user_role_select', 0);
-	
+	add_option('npu_image_description_select', 'Disabled');
+	add_option('npu_image_linklove_select', 'Disabled');
 
 	// Function -> Update Uptions
 	function npu_update_options() {
 	update_option('npu_default_gallery', $_POST['npu_default_gallery']);
 	update_option('npu_email_option', $_POST['npu_email_option']);
 	update_option('npu_notification_email', $_POST['npu_notification_email']);
+	update_option('npu_upload_button', $_POST['npu_upload_button']);
+	update_option('npu_description_text', $_POST['npu_description_text']);
 	update_option('npu_notlogged', $_POST['npu_notlogged']);
 	update_option('npu_upload_success', $_POST['npu_upload_success']);
 	update_option('npu_no_file', $_POST['npu_no_file']);
@@ -99,6 +112,25 @@ if(class_exists('nggLoader') || in_array( $required_plugin , $plugins )) {
 	update_option('npu_widget_uploader_select', $_POST['npu_widget_uploader_select']);
 	update_option('npu_exclude_select', $_POST['npu_exclude_select']);
     update_option('npu_user_role_select', $_POST['npu_user_role_select']);
+	update_option('npu_image_description_select', $_POST['npu_image_description_select']);
+	update_option('npu_image_linklove_select', $_POST['npu_image_linklove_select']);
+	}
+	
+    function npu_restore_options() {
+	update_option('npu_default_gallery', 1);
+	update_option('npu_email_option', '');
+	update_option('npu_notification_email', get_option('admin_email'));
+	update_option('npu_upload_button', '');
+	update_option('npu_description_text', '');
+	update_option('npu_notlogged', '');
+	update_option('npu_upload_success', '');
+	update_option('npu_no_file', '');
+	update_option('npu_upload_failed', '');
+	update_option('npu_widget_uploader_select', 'Enabled');
+	update_option('npu_exclude_select', 'Enabled');
+    update_option('npu_user_role_select', 0);
+	update_option('npu_image_description_select', 'Disabled');
+	update_option('npu_image_linklove_select', 'Disabled');
 	}
 
 	// Function -> Settings Page
@@ -119,8 +151,20 @@ if(class_exists('nggLoader') || in_array( $required_plugin , $plugins )) {
 				. "</div>\n";
 	
 		} 
+	
+		if (isset($_POST['Restore'])) {
+			npu_restore_options();
+			echo "<div class=\"updated\">\n"
+				. "<p>"
+					. "<strong>"
+					. __('Default settings restored.')
+					. "</strong>"
+				. "</p>\n"
+				. "</div>\n";
+	
+		} 
 	}
-		
+
 	?>
 
 		<div class="wrap">
@@ -128,24 +172,47 @@ if(class_exists('nggLoader') || in_array( $required_plugin , $plugins )) {
 		<h2>NextGEN Public Uploader</h2>
         
         <p><strong>Author:</strong> <a href="http://webdevstudios.com">WebDevStudios</a></p>
-        <p><strong>Current Version:</strong> 1.3.0</p>
+        <p><strong>Current Version:</strong> 1.4</p>
 
         <p><strong>Shortcode Examples: </strong><code>[ngg_uploader]</code> or <code>[ngg_uploader id = 1]</code></p>
 
-		<p><strong><a href="http://webdevstudios.com/support/wordpress-plugins/nextgen-public-uploader/">Visit The Plugin Homepage</a></strong>
+		<p><strong><a href="http://webdevstudios.com/support/wordpress-plugins/nextgen-public-uploader/">Visit The Plugin Homepage</a></strong></p>
 		<p><strong><a href="http://webdevstudios.com/support/forum/nextgen-public-uploader/">Visit The Support Forum</a></strong></p>
+		<p><strong><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3084056">Donate To This Plugin</a></strong></p>
         
 		<form method="post">
         <input type="hidden" name="action" value="update" />
 		<?php wp_nonce_field('update-options'); ?>
         <input type="hidden" name="npu_update_options" value="1">
 
-		<table class="form-table">        
-
-		<tr valign="top">
+		<table class="form-table">
+        
+        <?php
+        include_once (NGGALLERY_ABSPATH."lib/ngg-db.php");
+        $nggdb = new nggdb();
+        $gallerylist = $nggdb->find_all_galleries('gid', 'DESC');
+		?>
+        
+        <tr valign="top">
 		<th scope="row">Default Gallery ID:</th>
 		<td>
-        <input type="text" name="npu_default_gallery" value="<?php echo get_option('npu_default_gallery'); ?>" />
+        <select name="npu_default_gallery">
+        <option selected><?php echo get_option('npu_default_gallery'); ?></option>
+        <?php 
+        foreach ($gallerylist as $gallery) {
+        $name = ( empty($gallery->title) ) ? $gallery->name : $gallery->title;
+        ?>
+        
+        <?php if (get_option('npu_default_gallery') != $gallery->gid) { ?>
+        
+        <option <?php selected($gallery->gid , $gal_id); ?> value="<?php echo $gallery->gid; ?>"><?php _e($gallery->gid,'nggallery'); ?></option>
+        
+        <?php } ?>
+        
+        <?php
+        }
+        ?>
+        </select>
         <span class="description">Enter the default gallery ID when using [ngg_uploader].</span>
         </td>
 		</tr>
@@ -155,16 +222,28 @@ if(class_exists('nggLoader') || in_array( $required_plugin , $plugins )) {
 		<td>
 		<select name="npu_widget_uploader_select">
 		<option selected><?php echo get_option('npu_widget_uploader_select'); ?></option>
-        <option value="Enabled">Enabled</option>
-		<option value="Disabled">Disabled</option>
+        <?php if (get_option('npu_widget_uploader_select') != "Enabled") { ?><option value="Enabled">Enabled</option><?php } ?>
+		<?php if (get_option('npu_widget_uploader_select') != "Disabled") { ?><option value="Disabled">Disabled</option><?php } ?>
 		</select>
         <span class="description">Enable or disable the widget uploader.</span>
         </td>
 		</tr>
         
+        <tr valign="top">
+		<th scope="row">Description Field: </th>
+		<td>
+		<select name="npu_image_description_select">
+		<option selected><?php echo get_option('npu_image_description_select'); ?></option>
+        <?php if (get_option('npu_image_description_select') != "Enabled") { ?><option value="Enabled">Enabled</option><?php } ?>
+		<?php if (get_option('npu_image_description_select') != "Disabled") { ?><option value="Disabled">Disabled</option><?php } ?>
+		</select>
+        <span class="description">Enable or disable upload description field.</span>
+        </td>
+		</tr>
+        
         <?php 
 		
-		if (get_option('npu_user_role_select') == "Visitor") {
+		if (get_option('npu_user_role_select') == 99) {
 			$npu_selected_user_role = "Visitor";
 		} else if (get_option('npu_user_role_select') == 0) {
 			$npu_selected_user_role = "Subscriber";
@@ -184,13 +263,13 @@ if(class_exists('nggLoader') || in_array( $required_plugin , $plugins )) {
 		<th scope="row">Minimum User Role: </th>
 		<td>
         <select name="npu_user_role_select">
-		<option selected><?php echo $npu_selected_user_role; ?></option>
-        <option value="Visitor">Visitor</option>
-		<option value="0">Subscriber</option>
-		<option value="1">Contributer</option>
-		<option value="2">Author</option>
-		<option value="7">Editor</option>
-		<option value="10">Admin</option>
+		<option selected value="<?php echo get_option('npu_user_role_select'); ?>"><?php echo $npu_selected_user_role; ?></option>
+        <?php if (get_option('npu_user_role_select') != 99) { ?><option value="99">Visitor</option><?php } ?>
+		<?php if (get_option('npu_user_role_select') != 0) { ?><option value="0">Subscriber</option><?php } ?>
+		<?php if (get_option('npu_user_role_select') != 1) { ?><option value="1">Contributer</option><?php } ?>
+		<?php if (get_option('npu_user_role_select') != 2) { ?><option value="2">Author</option><?php } ?>
+		<?php if (get_option('npu_user_role_select') != 7) { ?><option value="7">Editor</option><?php } ?>
+		<?php if (get_option('npu_user_role_select') != 10) { ?><option value="10">Admin</option><?php } ?>
 		</select>
         <span class="description">Select the minimum required user role for image uploading.</span>
         </td>
@@ -203,12 +282,28 @@ if(class_exists('nggLoader') || in_array( $required_plugin , $plugins )) {
         <span class="description">Enter an email address to be notified when a image has been submitted.</span>
         </td>
 		</tr>
+		
+		<tr valign="top">
+		<th scope="row">Upload Button:</th>
+		<td>
+        <input type="text" name="npu_upload_button" value="<?php echo get_option('npu_upload_button'); ?>" />
+        <span class="description">Customize text for upload button.</span>
+        </td>
+		</tr>
+		
+		<tr valign="top">
+		<th scope="row">Description Text:</th>
+		<td>
+        <input type="text" name="npu_description_text" value="<?php echo get_option('npu_description_text'); ?>" />
+        <span class="description">Message displayed for image description.</span>
+        </td>
+		</tr>
 
         <tr valign="top">
 		<th scope="row">Not Authorized:</th>
 		<td>
         <input type="text" name="npu_notlogged" value="<?php echo get_option('npu_notlogged'); ?>" />
-        <span class="description">Message displayed when a user doesn not have permission to upload.</span>
+        <span class="description">Message displayed when a user does not have permission to upload.</span>
         </td>
 		</tr>
 
@@ -241,22 +336,42 @@ if(class_exists('nggLoader') || in_array( $required_plugin , $plugins )) {
 		<td>
 		<select name="npu_exclude_select">
 		<option selected><?php echo get_option('npu_exclude_select'); ?></option>
-        <option value="Enabled">Enabled</option>
-		<option value="Disabled">Disabled</option>
+        <?php if (get_option('npu_exclude_select') != "Enabled") { ?><option value="Enabled">Enabled</option><?php } ?>
+		<?php if (get_option('npu_exclude_select') != "Disabled") { ?><option value="Disabled">Disabled</option><?php } ?>
 		</select>
         <span class="description">Enable or disable images flagged as excluded.</span>
+        </td>
+		</tr>
+        
+        <tr valign="top">
+		<th scope="row">Link Love: </th>
+		<td>
+		<select name="npu_image_linklove_select">
+		<option selected><?php echo get_option('npu_image_linklove_select'); ?></option>
+        <?php if (get_option('npu_image_linklove_select') != "Enabled") { ?><option value="Enabled">Enabled</option><?php } ?>
+		<?php if (get_option('npu_image_linklove_select') != "Disabled") { ?><option value="Disabled">Disabled</option><?php } ?>
+		</select>
+        <span class="description">If you love this plugin link to us in your footer.</span>
         </td>
 		</tr>
 	
 		</table>
 
 		<input type="hidden" name="action" value="update" />
-		<input type="hidden" name="npu_page_options" value="npu_default_gallery, npu_email_option, npu_notification_email, npu_notlogged, npu_upload_success, npu_no_file, npu_upload_failed, npu_widget_uploader_select, npu_exclude_select, npu_user_role_select" />
+		<input type="hidden" name="npu_page_options" value="npu_default_gallery, npu_email_option, npu_notification_email, npu_notlogged, npu_upload_success, npu_no_file, npu_upload_failed, npu_widget_uploader_select, npu_exclude_select, npu_user_role_select, npu_image_description_select, npu_image_linklove_select, npu_upload_button, npu_description_text" />
 
 		<p class="submit">
 		<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
 		</p>
-
+        
+		</form>
+        
+		<form name="Restore" method="post">
+			<?php wp_nonce_field('restore-options') ?>
+			<p><strong>Restore Default Settings</strong></p>
+			<div>
+            <input type="submit" class="button" name="Restore" value="<?php _e('Reset Options') ;?>" onclick="javascript:check=confirm('<?php _e('WARNING: This will restore all default settings.\n\nChoose [Cancel] to Stop, [OK] to proceed.\n'); ?>');if(check==false) return false;" />
+            </div>
 		</form>
         
 		</div>
@@ -273,4 +388,16 @@ if(class_exists('nggLoader') || in_array( $required_plugin , $plugins )) {
 	add_action( 'admin_notices', 'npu_error_message');
 	
 }
+
+// NextGEN Public Uploader Link Love
+function npu_link_love() {
+			?>
+			<p>NextGEN Public Uploader by <a href="http://www.webdevstudios.com/">WebDevStudios</a></p>
+			<?php
+}
+
+if(get_option('npu_image_linklove_select') == 'Enabled') {
+add_action('wp_footer', 'npu_link_love');
+}
+
 ?>

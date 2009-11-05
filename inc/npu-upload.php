@@ -221,7 +221,7 @@ if (!class_exists("npuGalleryUpload")) {
                 $strOutput .= "</div>";
             }
 			
-            if (!is_user_logged_in() && get_option('npu_user_role_select') != 'Visitor') {
+            if (!is_user_logged_in() && get_option('npu_user_role_select') != 99) {
                 $strOutput .= "<div class=\"need_login\">";
 				if(get_option('npu_notlogged')) {
                 $strOutput .= get_option('npu_notlogged');
@@ -230,10 +230,10 @@ if (!class_exists("npuGalleryUpload")) {
 				}
                 $strOutput .= "</div>";
             } else {
-				
+            				
 				$npu_selected_user_role = get_option('npu_user_role_select');
 				
-				if (current_user_can('level_'. $npu_selected_user_role . '') || get_option('npu_user_role_select') == 'Visitor') {
+				if (current_user_can('level_'. $npu_selected_user_role . '') || get_option('npu_user_role_select') == 99) {
                 $strOutput .= "<div id=\"uploadimage\">";
                 $strOutput .= "\n\t<form name=\"uploadimage\" id=\"uploadimage_form\" method=\"POST\" enctype=\"multipart/form-data\" accept-charset=\"utf-8\" >";
                 $strOutput .= wp_nonce_field('ngg_addgallery', '_wpnonce', true , false);
@@ -248,8 +248,32 @@ if (!class_exists("npuGalleryUpload")) {
                     }
                     $strOutput .= "\n\t</div>";
                 }
+				
+				if(get_option('npu_image_description_select') == 'Enabled') {
+				
+				$strOutput .= "<br />";
+				
+				if(get_option('npu_description_text')) {			
+				$strOutput .= get_option('npu_description_text');			
+				} else {			
+				$strOutput .= "Description:";
+				}
+				
+				$strOutput .= "<br />";
+				
+				$strOutput .= "\n\t<input type=\"text\" name=\"imagedescription\" id=\"imagedescription\"/>";
+				
+				}
+				
                 $strOutput .= "\n\t<div class=\"submit\"><br />";
-                $strOutput .= "\n\t\t<input class=\"button-primary\" type=\"submit\" name=\"uploadimage\" id=\"uploadimage_btn\" value=\"Upload image\" />";
+                
+				if(get_option('npu_upload_button')) {
+                $strOutput .= "\n\t\t<input class=\"button-primary\" type=\"submit\" name=\"uploadimage\" id=\"uploadimage_btn\" ";
+                $strOutput .= 'value="' . get_option("npu_upload_button") . '" >';
+				} else {
+				$strOutput .= "\n\t\t<input class=\"button-primary\" type=\"submit\" name=\"uploadimage\" id=\"uploadimage_btn\" value=\"Upload\" />";
+				}
+                                
                 $strOutput .= "\n\t\t</div>";
                 $strOutput .= "\n</form>";
                 $strOutput .= "\n</div>";
@@ -285,7 +309,7 @@ if (!class_exists("npuGalleryUpload")) {
                 $strOutput .= "</div>";
             }
 			
-            if (!is_user_logged_in() && get_option('npu_user_role_select') != 'Visitor') {
+            if (!is_user_logged_in() && get_option('npu_user_role_select') != 99) {
                 $strOutput .= "<div class=\"need_login\">";
 				if(get_option('npu_notlogged')) {
                 $strOutput .= get_option('npu_notlogged');
@@ -297,7 +321,7 @@ if (!class_exists("npuGalleryUpload")) {
 				
 				$npu_selected_user_role = get_option('npu_user_role_select');
 				
-				if (current_user_can('level_'. $npu_selected_user_role . '') || get_option('npu_user_role_select') == 'Visitor') {
+				if (current_user_can('level_'. $npu_selected_user_role . '') || get_option('npu_user_role_select') == 99) {
                 $strOutput .= "<div id=\"uploadimage\">";
                 $strOutput .= "\n\t<form name=\"uploadimage_widget\" id=\"uploadimage_form_widget\" method=\"POST\" enctype=\"multipart/form-data\" accept-charset=\"utf-8\" >";
                 $strOutput .= wp_nonce_field('ngg_addgallery', '_wpnonce', true , false);
@@ -312,8 +336,32 @@ if (!class_exists("npuGalleryUpload")) {
                     }
                     $strOutput .= "\n\t</div>";
                 }
+				
+				if(get_option('npu_image_description_select') == 'Enabled') {
+				
+				$strOutput .= "<br />";	
+							
+				if(get_option('npu_description_text')) {			
+				$strOutput .= get_option('npu_description_text');			
+				} else {			
+				$strOutput .= "Description:";
+				}
+				
+				$strOutput .= "<br />";
+				
+				$strOutput .= "\n\t<input type=\"text\" name=\"imagedescription\" id=\"imagedescription\"/>";
+				
+				}
+				
                 $strOutput .= "\n\t<div class=\"submit\"><br />";
-                $strOutput .= "\n\t\t<input class=\"button-primary\" type=\"submit\" name=\"uploadimage_widget\" id=\"uploadimage_btn\" value=\"Upload image\" />";
+
+				if(get_option('npu_upload_button')) {
+                $strOutput .= "\n\t\t<input class=\"button-primary\" type=\"submit\" name=\"uploadimage\" id=\"uploadimage_btn\" ";
+                $strOutput .= 'value="' . get_option("npu_upload_button") . '" >';
+				} else {
+				$strOutput .= "\n\t\t<input class=\"button-primary\" type=\"submit\" name=\"uploadimage\" id=\"uploadimage_btn\" value=\"Upload\" />";
+				}
+
                 $strOutput .= "\n\t\t</div>";
                 $strOutput .= "\n</form>";
                 $strOutput .= "\n</div>";
@@ -482,8 +530,8 @@ if (!class_exists("npuGalleryUpload")) {
             global $wpdb;
 
             $arrUpdateFields = array();
-            if (isset($_POST['description']) && !empty($_POST['description'])) {
-                $this->strDescription = $wpdb->escape($_POST['description']);
+            if (isset($_POST['imagedescription']) && !empty($_POST['imagedescription'])) {
+                $this->strDescription = $wpdb->escape($_POST['imagedescription']);
                 $arrUpdateFields[] = "description = '$this->strDescription'";
             } else {
                 return;
