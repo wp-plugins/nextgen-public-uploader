@@ -2,12 +2,16 @@
 
 /* ####################### */
 /* NextGEN Public Uploader */
+/* Version: 1.5            */
+/* Author: WebDevStudios   */
 /* ####################### */
 
+// Get NextGEN Gallery Functions
 require_once (NGGALLERY_ABSPATH."/admin/functions.php");
 
 class UploaderNggAdmin extends nggAdmin
 {
+	// Public Variables
     public $arrImageIds = false;
     public $strGalleryPath = false;
     public $arrImageNames = false;
@@ -18,68 +22,50 @@ class UploaderNggAdmin extends nggAdmin
 	public $arrErrorMsg = array();
 	public $arrErrorMsg_widg = array();
 
-    function upload_images() {
-    // upload of pictures
-        
+    function upload_images() {        
         global $wpdb;
-
-        // Images must be an array
+        // Image Array
         $imageslist = array();
-
-        // get selected gallery
+        // Get Gallery ID
         $galleryID = (int) $_POST['galleryselect'];
-
         if ($galleryID == 0) {
             nggGallery::show_error(__('No gallery selected.','nggallery'));
             return;
         }
-
-        // get the path to the gallery
-        $gallerypath = $wpdb->get_var("SELECT path FROM $wpdb->nggallery WHERE gid = '$galleryID' ");
-        
+        // Get Gallery Path
+        $gallerypath = $wpdb->get_var("SELECT path FROM $wpdb->nggallery WHERE gid = '$galleryID' ");      
         if (!$gallerypath){
             nggGallery::show_error(__('Failure in database, no gallery path set.','nggallery'));
             return;
         }
-
-        // read list of images
+        // Read Image List
         $dirlist = $this->scandir(WINABSPATH.$gallerypath);
-
         foreach ($_FILES as $key => $value) {
-
-            // look only for uploded files
             if ($_FILES[$key]['error'] == 0) {
                 $temp_file = $_FILES[$key]['tmp_name'];
                 $filepart = pathinfo ( strtolower($_FILES[$key]['name']) );
-                // required until PHP 5.2.0
+                // Required Until PHP 5.2.0
                 $filepart['filename'] = substr($filepart["basename"],0 ,strlen($filepart["basename"]) - (strlen($filepart["extension"]) + 1) );
-
                 $filename = sanitize_title($filepart['filename']) . '.' . $filepart['extension'];
-
-                // check for allowed extension and if it's an image file
-                $ext = array('jpeg', 'jpg', 'png', 'gif');
-				
+                // Allowed Extensions
+                $ext = array('jpeg', 'jpg', 'png', 'gif');			
                 if ( !in_array($filepart['extension'], $ext) || !@getimagesize($temp_file) ){
                     nggGallery::show_error('<strong>'.$_FILES[$key]['name'].' </strong>'.__('is not a valid file.','nggallery'));
                     continue;
 				}
-
-                // check if this filename already exist in the folder
+                // Check If File Exists
                 $i = 0;
                 while (in_array($filename,$dirlist)) {
                     $filename = sanitize_title($filepart['filename']) . '_' . $i++ . '.' .$filepart['extension'];
                 }
-
                 $dest_file = WINABSPATH . $gallerypath . '/' . $filename;
-
-                // check for folder permission
+                // Check Folder Permissions
                 if (!is_writeable(WINABSPATH.$gallerypath)) {
                     $message = sprintf(__('Unable to write to directory %s. Is this directory writable by the server?', 'nggallery'), WINABSPATH.$gallerypath);
                     nggGallery::show_error($message);
                     return;
                 }
-
-                // save temp file to gallery
+                // Save Temporary File
                 if (!@move_uploaded_file($_FILES[$key]['tmp_name'], $dest_file)){
                     nggGallery::show_error(__('Error, the file could not moved to : ','nggallery').$dest_file);
                     $this->check_safemode(WINABSPATH.$gallerypath);
@@ -89,23 +75,18 @@ class UploaderNggAdmin extends nggAdmin
                     nggGallery::show_error(__('Error, the file permissions could not set.','nggallery'));
                     continue;
                 }
-
-                // add to imagelist & dirlist
+                // Add to Image and Dir List
                 $imageslist[] = $filename;
                 $dirlist[] = $filename;
-
             }
         }
-
-        if (count($imageslist) > 0) {
-			
+        if (count($imageslist) > 0) {		
 			if (get_option('npu_exclude_select') == "Disabled") {
 				$npu_exclude_id = 0;
 			} else {
 				$npu_exclude_id = 1;
 			}
-
-            // add images to database
+            // Add Images to Database
             $image_ids = $this->add_Images($galleryID, $imageslist);
             $this->arrThumbReturn = array();
             foreach ($image_ids as $pid) {
@@ -118,73 +99,53 @@ class UploaderNggAdmin extends nggAdmin
             $this->arrImageNames = $imageslist;
             $this->strGalleryPath = $gallerypath;
         }
-
         return;
-
-    } // end function
+    } // End Function
 	
-	function upload_images_widget() {
-    // upload of pictures
-        
+	function upload_images_widget() {       
         global $wpdb;
-
-        // Images must be an array
+        // Image Array
         $imageslist = array();
-
-        // get selected gallery
+        // Get Gallery ID
         $galleryID = (int) $_POST['galleryselect'];
-
         if ($galleryID == 0) {
             nggGallery::show_error(__('No gallery selected.','nggallery'));
             return;
         }
-
-        // get the path to the gallery
-        $gallerypath = $wpdb->get_var("SELECT path FROM $wpdb->nggallery WHERE gid = '$galleryID' ");
-        
+        // Get Gallery Path
+        $gallerypath = $wpdb->get_var("SELECT path FROM $wpdb->nggallery WHERE gid = '$galleryID' ");       
         if (!$gallerypath){
             nggGallery::show_error(__('Failure in database, no gallery path set.','nggallery'));
             return;
         }
-
-        // read list of images
+        // Read Image List
         $dirlist = $this->scandir(WINABSPATH.$gallerypath);
-
         foreach ($_FILES as $key => $value) {
-
-            // look only for uploded files
             if ($_FILES[$key]['error'] == 0) {
                 $temp_file = $_FILES[$key]['tmp_name'];
                 $filepart = pathinfo ( strtolower($_FILES[$key]['name']) );
-                // required until PHP 5.2.0
+                // Required Until PHP 5.2.0
                 $filepart['filename'] = substr($filepart["basename"],0 ,strlen($filepart["basename"]) - (strlen($filepart["extension"]) + 1) );
-
                 $filename = sanitize_title($filepart['filename']) . '.' . $filepart['extension'];
-
-                // check for allowed extension and if it's an image file
-                $ext = array('jpeg', 'jpg', 'png', 'gif');
-				
+                // Allowed Extensions
+                $ext = array('jpeg', 'jpg', 'png', 'gif');		
                 if ( !in_array($filepart['extension'], $ext) || !@getimagesize($temp_file) ){
                     nggGallery::show_error('<strong>'.$_FILES[$key]['name'].' </strong>'.__('is not a valid file.','nggallery'));
                     continue;
 				}
-
-                // check if this filename already exist in the folder
+                // Check If File Exists
                 $i = 0;
                 while (in_array($filename,$dirlist)) {
                     $filename = sanitize_title($filepart['filename']) . '_' . $i++ . '.' .$filepart['extension'];
                 }
-
                 $dest_file = WINABSPATH . $gallerypath . '/' . $filename;
-
-                // check for folder permission
+                // Check Folder Permissions
                 if (!is_writeable(WINABSPATH.$gallerypath)) {
                     $message = sprintf(__('Unable to write to directory %s. Is this directory writable by the server?', 'nggallery'), WINABSPATH.$gallerypath);
                     nggGallery::show_error($message);
                     return;
                 }
-
-                // save temp file to gallery
+                // Save Temporary File
                 if (!@move_uploaded_file($_FILES[$key]['tmp_name'], $dest_file)){
                     nggGallery::show_error(__('Error, the file could not moved to : ','nggallery').$dest_file);
                     $this->check_safemode(WINABSPATH.$gallerypath);
@@ -194,23 +155,18 @@ class UploaderNggAdmin extends nggAdmin
                     nggGallery::show_error(__('Error, the file permissions could not set.','nggallery'));
                     continue;
                 }
-
-                // add to imagelist & dirlist
+                // Add to Image and Dir List
                 $imageslist[] = $filename;
                 $dirlist[] = $filename;
-
             }
         }
-
-        if (count($imageslist) > 0) {
-			
+        if (count($imageslist) > 0) {		
 			if (get_option('npu_exclude_select') == "Disabled") {
 				$npu_exclude_id = 0;
 			} else {
 				$npu_exclude_id = 1;
 			}
-
-            // add images to database
+            // Add Images to Database
             $image_ids = $this->add_Images($galleryID, $imageslist);
             $this->arrThumbReturn = array();
             foreach ($image_ids as $pid) {
@@ -223,10 +179,7 @@ class UploaderNggAdmin extends nggAdmin
             $this->arrImageNames = $imageslist;
             $this->strGalleryPath = $gallerypath;
         }
-
         return;
-
-    } // end function
-
+    } // End Function
 }
 ?>

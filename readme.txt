@@ -2,8 +2,8 @@
 Contributors: wds-scott, williamsba1
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3084056
 Tags: nextgen public uploader,nextgen uploader,nextgen gallery,nextgen,gallery,image,upload,photo,picture,visitor,public,uploader
-Requires at least: 2.7 Tested up to: 2.8.5
-Stable tag: 1.4
+Requires at least: 2.7 Tested up to: 2.8.6
+Stable tag: 1.5
 
 NextGEN Public Uploader is an extension to NextGEN Gallery which allows frontend image uploads for your users.
 
@@ -11,7 +11,7 @@ NextGEN Public Uploader is an extension to NextGEN Gallery which allows frontend
 
 The NextGEN Public Uploader plugin for WordPress allows users to upload images from the frontend of your blog to a specified gallery. Upon upload the submitted image is marked as "excluded" and an email notificatin will be sent letting you know an image is waiting to be reviewed.
 
-Get the latest version here - [NextGEN Public Uploader](http://downloads.wordpress.org/plugin/nextgen-public-uploader.1.4.zip "NextGEN Public Uploader")
+Get the latest version here - [NextGEN Public Uploader](http://downloads.wordpress.org/plugin/nextgen-public-uploader.1.5.zip "NextGEN Public Uploader")
 
 REMEMBER: Always backup your database!
 
@@ -72,6 +72,11 @@ If you have installed NextGEN Gallery, please make sure that it is activated.
 
 == Changelog ==
 
+= V1.5 - 12.7.2009 =
+* New Feature: TinyMCE Button
+* Bugfix: Widget Uploader
+* Updates: Settings Page
+
 = V1.4 - 11.5.2009 =
 * New Feature: Image Description
 * Updates: More options available via settings page
@@ -105,3 +110,11 @@ If you have installed NextGEN Gallery, please make sure that it is activated.
 
 = V1.0 - 10.5.2009 =
 * NextGEN Public Uploader is launched
+
+== License ==
+
+NextGEN Public Uploader is distributed under an open source license called the GNU General Public License, or GPL. The text of the license is distributed with every copy of this plugin.
+
+== Upgrade Notice == 
+
+Before upgrading NextGEN Public Uploader please remember to backup your database and files.
