@@ -58,7 +58,7 @@ if ( !is_user_logged_in() || !current_user_can('edit_posts') )
 	<form name="nextgenPublicUpload" action="#">
 	<div class="tabs">
 		<ul>
-			<li id="rss_tab" class="current"><span><a href="javascript:mcTabs.displayTab('rss_tab','rss_panel');" onmousedown="return false;"><?php _e("Gallery", 'cetsHW'); ?></a></span></li>
+			<li id="rss_tab" class="current"><span><a href="javascript:mcTabs.displayTab('rss_tab','rss_panel');" onmousedown="return false;"><?php _e("Gallery", 'ngg-public-uploader'); ?></a></span></li>
 		</ul>
 	</div>
 	
@@ -72,13 +72,15 @@ if ( !is_user_logged_in() || !current_user_can('edit_posts') )
         $gallerylist = $nggdb->find_all_galleries('gid', 'DESC');
 		?>
 		<tr>
-			<td nowrap="nowrap"><label for="rsstag"><?php _e("Select Gallery:", 'cetsHW'); ?></label></td>
+			<td nowrap="nowrap"><label for="rsstag"><?php _e("Select Gallery:", 'ngg-public-uploader'); ?></label></td>
 			<td>
         	<select id="rsstag" name="rsstag">
         		<?php 
         		foreach ($gallerylist as $gallery) {
-        			$name = ( empty($gallery->title) ) ? $gallery->name : $gallery->title; ?>
-        			<option value="<?php echo $gallery->gid; ?>"><?php _e($gallery->gid,'nggallery'); ?></option>
+        			$name = ( empty($gallery->title) ) ? $gallery->name : $gallery->title; 
+					$galleryid = $gallery->gid . ': ';
+				?>
+        			<option value="<?php echo $gallery->gid; ?>"><?php _e($galleryid,'ngg-public-uploader'); _e($name,'ngg-public-uploader'); ?></option>
         		<?php } ?>
         	</select>
         	</td>

@@ -1,11 +1,5 @@
 <?php
 
-/* ####################### */
-/* NextGEN Public Uploader */
-/* Version: 1.5            */
-/* Author: WebDevStudios   */
-/* ####################### */
-
 // Get NextGEN Gallery Functions
 require_once (NGGALLERY_ABSPATH."/admin/functions.php");
 
@@ -29,8 +23,12 @@ class UploaderNggAdmin extends nggAdmin
         // Get Gallery ID
         $galleryID = (int) $_POST['galleryselect'];
         if ($galleryID == 0) {
-            nggGallery::show_error(__('No gallery selected.','nggallery'));
-            return;
+			if(get_option('npu_default_gallery')) {
+				$galleryID = get_option('npu_default_gallery');
+			} else {
+            	nggGallery::show_error(__('No gallery selected.','nggallery'));
+				return;
+			}
         }
         // Get Gallery Path
         $gallerypath = $wpdb->get_var("SELECT path FROM $wpdb->nggallery WHERE gid = '$galleryID' ");      
@@ -109,8 +107,12 @@ class UploaderNggAdmin extends nggAdmin
         // Get Gallery ID
         $galleryID = (int) $_POST['galleryselect'];
         if ($galleryID == 0) {
-            nggGallery::show_error(__('No gallery selected.','nggallery'));
-            return;
+			if(get_option('npu_default_gallery')) {
+				$galleryID = get_option('npu_default_gallery');
+			} else {
+            	nggGallery::show_error(__('No gallery selected.','nggallery'));
+				return;
+			}
         }
         // Get Gallery Path
         $gallerypath = $wpdb->get_var("SELECT path FROM $wpdb->nggallery WHERE gid = '$galleryID' ");       

@@ -2,8 +2,8 @@
 Contributors: wds-scott, williamsba1
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3084056
 Tags: nextgen public uploader,nextgen uploader,nextgen gallery,nextgen,gallery,image,upload,photo,picture,visitor,public,uploader
-Requires at least: 2.7 Tested up to: 2.8.6
-Stable tag: 1.5
+Requires at least: 2.8 Tested up to: 2.9.1
+Stable tag: 1.6
 
 NextGEN Public Uploader is an extension to NextGEN Gallery which allows frontend image uploads for your users.
 
@@ -11,7 +11,7 @@ NextGEN Public Uploader is an extension to NextGEN Gallery which allows frontend
 
 The NextGEN Public Uploader plugin for WordPress allows users to upload images from the frontend of your blog to a specified gallery. Upon upload the submitted image is marked as "excluded" and an email notificatin will be sent letting you know an image is waiting to be reviewed.
 
-Get the latest version here - [NextGEN Public Uploader](http://downloads.wordpress.org/plugin/nextgen-public-uploader.1.5.zip "NextGEN Public Uploader")
+Get the latest version here - [NextGEN Public Uploader](http://downloads.wordpress.org/plugin/nextgen-public-uploader.1.6.zip "NextGEN Public Uploader")
 
 REMEMBER: Always backup your database!
 
@@ -27,21 +27,21 @@ Special thanks to Patrick McCoy for his help.
 
 == Screenshots ==
 
-1. Admin Area
+1. Front End
 
-2. Upload Form
+2. Back End
 
-3. Shortcode Example
+3. TinyMCE
 
-4. Widget Uploader
+4. Shortcode Example
 
 == Installation ==
 
-1. Upload the nextgen-public-uploader folder to the plugins directory in your WordPress or WPMU installation
+1. Upload the nextgen-public-uploader folder to the plugins directory in your WordPress or WPMU installation.
 
 2. Activate NextGEN Public Uploader.
 
-3. Drag the NextGEN Public Uploader widget to the desired sidebar or use the shortcode in your pages/posts
+3. Drag the NextGEN Public Uploader widget to the desired sidebar or use the shortcode in your pages/posts.
 
 View the plugin settings page for shortcode examples.
 
@@ -71,6 +71,10 @@ If you have installed NextGEN Gallery, please make sure that it is activated.
 [NextGEN Public Uploader Support](http://webdevstudios.com/support/forum/nextgen-public-uploader/ "WordPress Plugins and Support Services")
 
 == Changelog ==
+
+= V1.6 - 1.30.2010 =
+* Updates: Added localization
+* Updates: Displays gallery name in TinyMCE
 
 = V1.5 - 12.7.2009 =
 * New Feature: TinyMCE Button

@@ -1,11 +1,5 @@
 <?php
 
-/* ####################### */
-/* NextGEN Public Uploader */
-/* Version: 1.5            */
-/* Author: WebDevStudios   */
-/* ####################### */
-
 if (!class_exists("npuGalleryUpload")) {
 	
 	// Public Variables
@@ -219,7 +213,7 @@ if (!class_exists("npuGalleryUpload")) {
 						if(get_option('npu_description_text')) {			
 							$strOutput .= get_option('npu_description_text');			
 						} else {			
-						$strOutput .= "Description:";
+						$strOutput .= __('Description:', 'ngg-public-uploader');
 						}				
 						$strOutput .= "<br />";				
 						$strOutput .= "\n\t<input type=\"text\" name=\"imagedescription\" id=\"imagedescription\"/>";				
@@ -288,7 +282,7 @@ if (!class_exists("npuGalleryUpload")) {
 						if(get_option('npu_description_text')) {			
 							$strOutput .= get_option('npu_description_text');			
 						} else {			
-							$strOutput .= "Description:";
+							$strOutput .= __('Description:', 'ngg-public-uploader');
 						}				
 						$strOutput .= "<br />";				
 						$strOutput .= "\n\t<input type=\"text\" name=\"imagedescription\" id=\"imagedescription\"/>";		
