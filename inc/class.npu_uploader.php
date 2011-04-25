@@ -44,7 +44,11 @@ class UploaderNggAdmin extends nggAdmin
                 $filepart = pathinfo ( strtolower($_FILES[$key]['name']) );
                 // Required Until PHP 5.2.0
                 $filepart['filename'] = substr($filepart["basename"],0 ,strlen($filepart["basename"]) - (strlen($filepart["extension"]) + 1) );
-                $filename = sanitize_title($filepart['filename']) . '.' . $filepart['extension'];
+                // Random hash generation added by [http://www.linus-neumann.de/2011/04/19/ngg_pu_patch]
+                	$randPool = '0123456789abcdefghijklmnopqrstuvwxyz';
+					for($i = 0; $i<20; $i++)
+						$entropy .= $randPool[mt_rand(0,strlen($randPool)-1)];
+                $filename = sanitize_title($filepart['filename']) . '-' . sha1(md5($entropy)) . '.' . $filepart['extension'];
                 // Allowed Extensions
                 $ext = array('jpeg', 'jpg', 'png', 'gif');			
                 if ( !in_array($filepart['extension'], $ext) || !@getimagesize($temp_file) ){
@@ -184,4 +188,3 @@ class UploaderNggAdmin extends nggAdmin
         return;
     } // End Function
 }
-?>

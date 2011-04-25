@@ -1,17 +1,17 @@
 === NextGEN Public Uploader ===
-Contributors: wds-scott, williamsba1
+Contributors: WDS-Scott, williamsba1
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3084056
 Tags: nextgen public uploader,nextgen uploader,nextgen gallery,nextgen,gallery,image,upload,photo,picture,visitor,public,uploader
-Requires at least: 2.8 Tested up to: 2.9.1
-Stable tag: 1.6
+Requires at least: 3.0 Tested up to: 3.1.1
+Stable tag: 1.6.1
 
 NextGEN Public Uploader is an extension to NextGEN Gallery which allows frontend image uploads for your users.
 
 == Description ==
 
-The NextGEN Public Uploader plugin for WordPress allows users to upload images from the frontend of your blog to a specified gallery. Upon upload the submitted image is marked as "excluded" and an email notificatin will be sent letting you know an image is waiting to be reviewed.
+The NextGEN Public Uploader plugin for WordPress allows users to upload images from the frontend of your blog to a specified gallery. Upon upload the submitted image is marked as "excluded" and an email notification will be sent letting you know an image is waiting to be reviewed.
 
-Get the latest version here - [NextGEN Public Uploader](http://downloads.wordpress.org/plugin/nextgen-public-uploader.1.6.zip "NextGEN Public Uploader")
+Get the latest version here - [NextGEN Public Uploader](http://downloads.wordpress.org/plugin/nextgen-public-uploader.1.6.1.zip "NextGEN Public Uploader")
 
 REMEMBER: Always backup your database!
 
@@ -71,6 +71,9 @@ If you have installed NextGEN Gallery, please make sure that it is activated.
 [NextGEN Public Uploader Support](http://webdevstudios.com/support/forum/nextgen-public-uploader/ "WordPress Plugins and Support Services")
 
 == Changelog ==
+
+= V1.6.1 - 4.25.2011 =
+* Security Patch (QuickFix): Adds random hash to images held for moderation. (Thanks to Linus-Neumann.de)
 
 = V1.6 - 1.30.2010 =
 * Updates: Added localization

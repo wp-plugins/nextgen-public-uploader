@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Public Uploader
 Plugin URI: http://webdevstudios.com/support/wordpress-plugins/nextgen-public-uploader/
 Description: NextGEN Public Uploader is an extension to NextGEN Gallery which allows frontend image uploads for your users.
-Version: 1.6
+Version: 1.6.1
 Author: WebDevStudios
 Author URI: http://webdevstudios.com
 
@@ -26,6 +26,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 /*
 == Changelog ==
+
+= V1.6.1 - 4.25.2011 =
+* Security Patch (QuickFix): Adds random hash to images held for moderation. (Thanks to Linus-Neumann.de)
 
 = V1.6 - 1.30.2010 =
 * Updates: Added localization
@@ -72,7 +75,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 // Define current version.
-define( 'NG_PUBLIC_UPLOADER_VERSION', '1.6' );
+define( 'NG_PUBLIC_UPLOADER_VERSION', '1.6.1' );
 
 /*** 
  * Define the path and url of the CollabPress plugins directory. 
