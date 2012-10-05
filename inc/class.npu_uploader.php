@@ -16,7 +16,7 @@ class UploaderNggAdmin extends nggAdmin
 	public $arrErrorMsg = array();
 	public $arrErrorMsg_widg = array();
 
-    function upload_images() {        
+    function upload_images() {
         global $wpdb;
         // Image Array
         $imageslist = array();
@@ -31,7 +31,7 @@ class UploaderNggAdmin extends nggAdmin
 			}
         }
         // Get Gallery Path
-        $gallerypath = $wpdb->get_var("SELECT path FROM $wpdb->nggallery WHERE gid = '$galleryID' ");      
+        $gallerypath = $wpdb->get_var("SELECT path FROM $wpdb->nggallery WHERE gid = '$galleryID' ");
         if (!$gallerypath){
             nggGallery::show_error(__('Failure in database, no gallery path set.','nggallery'));
             return;
@@ -40,6 +40,7 @@ class UploaderNggAdmin extends nggAdmin
         $dirlist = $this->scandir(WINABSPATH.$gallerypath);
         foreach ($_FILES as $key => $value) {
             if ($_FILES[$key]['error'] == 0) {
+                $entropy = '';
                 $temp_file = $_FILES[$key]['tmp_name'];
                 $filepart = pathinfo ( strtolower($_FILES[$key]['name']) );
                 // Required Until PHP 5.2.0
@@ -50,7 +51,7 @@ class UploaderNggAdmin extends nggAdmin
 						$entropy .= $randPool[mt_rand(0,strlen($randPool)-1)];
                 $filename = sanitize_title($filepart['filename']) . '-' . sha1(md5($entropy)) . '.' . $filepart['extension'];
                 // Allowed Extensions
-                $ext = array('jpeg', 'jpg', 'png', 'gif');			
+                $ext = array('jpeg', 'jpg', 'png', 'gif');
                 if ( !in_array($filepart['extension'], $ext) || !@getimagesize($temp_file) ){
                     nggGallery::show_error('<strong>'.$_FILES[$key]['name'].' </strong>'.__('is not a valid file.','nggallery'));
                     continue;
@@ -82,7 +83,7 @@ class UploaderNggAdmin extends nggAdmin
                 $dirlist[] = $filename;
             }
         }
-        if (count($imageslist) > 0) {		
+        if (count($imageslist) > 0) {
 			if (get_option('npu_exclude_select') == "Disabled") {
 				$npu_exclude_id = 0;
 			} else {
@@ -103,8 +104,8 @@ class UploaderNggAdmin extends nggAdmin
         }
         return;
     } // End Function
-	
-	function upload_images_widget() {       
+
+	function upload_images_widget() {
         global $wpdb;
         // Image Array
         $imageslist = array();
@@ -119,7 +120,7 @@ class UploaderNggAdmin extends nggAdmin
 			}
         }
         // Get Gallery Path
-        $gallerypath = $wpdb->get_var("SELECT path FROM $wpdb->nggallery WHERE gid = '$galleryID' ");       
+        $gallerypath = $wpdb->get_var("SELECT path FROM $wpdb->nggallery WHERE gid = '$galleryID' ");
         if (!$gallerypath){
             nggGallery::show_error(__('Failure in database, no gallery path set.','nggallery'));
             return;
@@ -134,7 +135,7 @@ class UploaderNggAdmin extends nggAdmin
                 $filepart['filename'] = substr($filepart["basename"],0 ,strlen($filepart["basename"]) - (strlen($filepart["extension"]) + 1) );
                 $filename = sanitize_title($filepart['filename']) . '.' . $filepart['extension'];
                 // Allowed Extensions
-                $ext = array('jpeg', 'jpg', 'png', 'gif');		
+                $ext = array('jpeg', 'jpg', 'png', 'gif');
                 if ( !in_array($filepart['extension'], $ext) || !@getimagesize($temp_file) ){
                     nggGallery::show_error('<strong>'.$_FILES[$key]['name'].' </strong>'.__('is not a valid file.','nggallery'));
                     continue;
@@ -166,7 +167,7 @@ class UploaderNggAdmin extends nggAdmin
                 $dirlist[] = $filename;
             }
         }
-        if (count($imageslist) > 0) {		
+        if (count($imageslist) > 0) {
 			if (get_option('npu_exclude_select') == "Disabled") {
 				$npu_exclude_id = 0;
 			} else {
