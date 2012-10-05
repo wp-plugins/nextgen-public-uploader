@@ -1,7 +1,7 @@
 (function() {
 	// Load plugin specific language pack
 	tinymce.PluginManager.requireLangPack('nextgenPublicUpload');
-	
+
 	tinymce.create('tinymce.plugins.nextgenPublicUpload', {
 		/**
 		 * Initializes the plugin, this will be executed after the plugin has been created.
@@ -17,7 +17,7 @@
 			ed.addCommand('mcenextgenPublicUpload', function() {
 				ed.windowManager.open({
 					file : url + '/window.php',
-					width : 210 + ed.getLang('nextgenPublicUpload.delta_width', 0),
+					width : 300 + ed.getLang('nextgenPublicUpload.delta_width', 0),
 					height : 210 + ed.getLang('nextgenPublicUpload.delta_height', 0),
 					inline : 1
 				}, {
