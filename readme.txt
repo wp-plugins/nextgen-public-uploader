@@ -1,17 +1,16 @@
 === NextGEN Public Uploader ===
-Contributors: WDS-Scott, williamsba1
+Contributors: WDS-Scott, williamsba1, rzen, webdevstudios
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3084056
 Tags: nextgen public uploader,nextgen uploader,nextgen gallery,nextgen,gallery,image,upload,photo,picture,visitor,public,uploader
-Requires at least: 3.0 Tested up to: 3.1.1
-Stable tag: 1.6.1
+Requires at least: 3.0
+Tested up to: 3.5
+Stable tag: 1.7
 
 NextGEN Public Uploader is an extension to NextGEN Gallery which allows frontend image uploads for your users.
 
 == Description ==
 
-The NextGEN Public Uploader plugin for WordPress allows users to upload images from the frontend of your blog to a specified gallery. Upon upload the submitted image is marked as "excluded" and an email notification will be sent letting you know an image is waiting to be reviewed.
-
-Get the latest version here - [NextGEN Public Uploader](http://downloads.wordpress.org/plugin/nextgen-public-uploader.1.6.1.zip "NextGEN Public Uploader")
+The NextGEN Public Uploader plugin for WordPress allows users to upload images from the frontend of your website to a specified gallery in NextGEN. Upon upload the submitted image is marked as "excluded" and an email notification will be sent letting you know an image is waiting to be reviewed.
 
 REMEMBER: Always backup your database!
 
@@ -19,21 +18,21 @@ REMEMBER: Always backup your database!
 
 [NextGEN Gallery](http://wordpress.org/extend/plugins/nextgen-gallery/ "NextGEN Gallery")
 
-= For NextGEN Public Uploader Support Visit =
-
-[NextGEN Public Uploader Support](http://webdevstudios.com/support/wordpress-plugins/ "WordPress Plugins and Support Services")
-
 Special thanks to Patrick McCoy for his help.
 
 == Screenshots ==
 
-1. Front End
+1. Sample use in front-end (placed below gallery and in sidebar)
 
-2. Back End
+2. Excluded Images in gallery, uploaded by anonymous users
 
-3. TinyMCE
+3. Plugin Settings
 
-4. Shortcode Example
+4. TinyMCE Integration
+
+5. Shortcode Example
+
+6. Upload Widget
 
 == Installation ==
 
@@ -51,7 +50,7 @@ View the plugin settings page for shortcode examples.
 
 REMEMBER: This plugin requires NextGEN Gallery in order to work.
 
-== Frequently Asked Questions == 
+== Frequently Asked Questions ==
 
 = Will this plugin work without the NextGEN Gallery plugin? =
 
@@ -61,16 +60,22 @@ No, this plugin requires NextGEN Gallery in order to work.
 [http://wordpress.org/extend/plugins/nextgen-gallery/](http://wordpress.org/extend/plugins/nextgen-gallery/ "NextGEN Gallery")
 
 = Why am I getting the following error? =
-  
+
 "NextGEN Public Uploader requires NextGEN gallery in order to work. Please deactivate this plugin or activate NextGEN Gallery."
 
 If you have installed NextGEN Gallery, please make sure that it is activated.
 
 = Still Need Help? Please visit the NextGEN Public Uploader Support Forum =
 
-[NextGEN Public Uploader Support](http://webdevstudios.com/support/forum/nextgen-public-uploader/ "WordPress Plugins and Support Services")
+[NextGEN Public Uploader Support](http://wordpress.org/support/plugin/nextgen-public-uploader)
 
 == Changelog ==
+
+= V1.7 - 10.5.2012 =
+* Confirmed Working: Tested with latest versions of NextGen and WordPress, everything works fine
+* Moved settings menu: The menu now righfully resides as a sub-item of Gallery
+* Updated settings: Dropped unnecessary options, updated all setings to use WordPress Settings API
+* Security Updates: Added a couple more security measures for data sanitization
 
 = V1.6.1 - 4.25.2011 =
 * Security Patch (QuickFix): Adds random hash to images held for moderation. (Thanks to Linus-Neumann.de)
@@ -101,7 +106,6 @@ If you have installed NextGEN Gallery, please make sure that it is activated.
 * Updates: Check if NextGEN Gallery exists optimized
 * Bugfix: Saving options with WPMU
 
-
 = V1.2.2 - 10.7.2009 =
 * New Feature: Ability to edit messages displayed
 
@@ -122,6 +126,6 @@ If you have installed NextGEN Gallery, please make sure that it is activated.
 
 NextGEN Public Uploader is distributed under an open source license called the GNU General Public License, or GPL. The text of the license is distributed with every copy of this plugin.
 
-== Upgrade Notice == 
+== Upgrade Notice ==
 
 Before upgrading NextGEN Public Uploader please remember to backup your database and files.

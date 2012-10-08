@@ -4,7 +4,7 @@ require_once('tinymce-config.php');
 
 global $wpdb;
 
-if ( !is_user_logged_in() || !current_user_can('edit_posts') ) 
+if ( !is_user_logged_in() || !current_user_can('edit_posts') )
 	wp_die(__("You are not allowed to be here"));
 
 ?>
@@ -20,34 +20,34 @@ if ( !is_user_logged_in() || !current_user_can('edit_posts') )
 	function init() {
 		tinyMCEPopup.resizeToInnerSize();
 	}
-	
+
 	function insertcetsHWLink() {
-		
+
 		var tagtext;
-		
+
 		var rss = document.getElementById('rss_panel');
-		
-		
+
+
 		// who is active ?
 		if (rss.className.indexOf('current') != -1) {
 			var rssid = document.getElementById('rsstag').value;
-				
+
 			if (rssid != '' )
 				tagtext = "[ngg_uploader id=" + rssid + "]";
 			else
 				tinyMCEPopup.close();
 		}
-	
-		
+
+
 		if(window.tinyMCE) {
 			window.tinyMCE.execInstanceCommand('content', 'mceInsertContent', false, tagtext);
-			//Peforms a clean up of the current editor HTML. 
+			//Peforms a clean up of the current editor HTML.
 			//tinyMCEPopup.editor.execCommand('mceCleanup');
-			//Repaints the editor. Sometimes the browser has graphic glitches. 
+			//Repaints the editor. Sometimes the browser has graphic glitches.
 			tinyMCEPopup.editor.execCommand('mceRepaint');
 			tinyMCEPopup.close();
 		}
-		
+
 		return;
 	}
 	</script>
@@ -61,7 +61,7 @@ if ( !is_user_logged_in() || !current_user_can('edit_posts') )
 			<li id="rss_tab" class="current"><span><a href="javascript:mcTabs.displayTab('rss_tab','rss_panel');" onmousedown="return false;"><?php _e("Gallery", 'ngg-public-uploader'); ?></a></span></li>
 		</ul>
 	</div>
-	
+
 	<div class="panel_wrapper">
 		<div id="rss_panel" class="panel current">
 		<br />
@@ -73,21 +73,23 @@ if ( !is_user_logged_in() || !current_user_can('edit_posts') )
 		?>
 		<tr>
 			<td nowrap="nowrap"><label for="rsstag"><?php _e("Select Gallery:", 'ngg-public-uploader'); ?></label></td>
+		</tr>
+		<tr>
 			<td>
         	<select id="rsstag" name="rsstag">
-        		<?php 
+        		<?php
         		foreach ($gallerylist as $gallery) {
-        			$name = ( empty($gallery->title) ) ? $gallery->name : $gallery->title; 
+        			$name = ( empty($gallery->title) ) ? $gallery->name : $gallery->title;
 					$galleryid = $gallery->gid . ': ';
 				?>
-        			<option value="<?php echo $gallery->gid; ?>"><?php _e($galleryid,'ngg-public-uploader'); _e($name,'ngg-public-uploader'); ?></option>
+        			<option value="<?php echo $gallery->gid; ?>"><?php echo 'ID: ' . $galleryid . ' &ndash; ' . $name; ?></option>
         		<?php } ?>
         	</select>
         	</td>
 		</tr>
         </table>
 		</div>
-				
+
 	</div>
 
 	<div class="mceActionPanel">
