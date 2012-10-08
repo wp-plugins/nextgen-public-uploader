@@ -458,7 +458,7 @@ if (!class_exists("npuGalleryUpload")) {
 				$this->strKeywords = $_POST['tags'];
 			}
 			if (count($arrUpdateFields) > 0) {
-			if (get_option('npu_exclude_select') == "Disabled") {
+			if ( ! get_option('npu_exclude_select')  ) {
 				$npu_exclude_id = 0;
 			} else {
 				$npu_exclude_id = 1;

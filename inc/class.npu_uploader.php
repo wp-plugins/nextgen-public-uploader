@@ -84,7 +84,7 @@ class UploaderNggAdmin extends nggAdmin
             }
         }
         if (count($imageslist) > 0) {
-			if (get_option('npu_exclude_select') == "Disabled") {
+			if ( ! get_option('npu_exclude_select')  ) {
 				$npu_exclude_id = 0;
 			} else {
 				$npu_exclude_id = 1;
@@ -168,7 +168,7 @@ class UploaderNggAdmin extends nggAdmin
             }
         }
         if (count($imageslist) > 0) {
-			if (get_option('npu_exclude_select') == "Disabled") {
+			if ( ! get_option('npu_exclude_select')  ) {
 				$npu_exclude_id = 0;
 			} else {
 				$npu_exclude_id = 1;
