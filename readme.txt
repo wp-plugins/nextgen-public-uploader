@@ -1,10 +1,10 @@
 === NextGEN Public Uploader ===
-Contributors: WDS-Scott, williamsba1, rzen, webdevstudios, tw2113
+Contributors: WDS-Scott, williamsba1, rzen, webdevstudios, tw2113, JustinSainton
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3084056
 Tags: nextgen public uploader,nextgen uploader,nextgen gallery,nextgen,gallery,image,upload,photo,picture,visitor,public,uploader
-Requires at least: 3.0
-Tested up to: 3.5
-Stable tag: 1.7.1
+Requires at least: 3.4
+Tested up to: 3.7
+Stable tag: 1.8.1
 
 NextGEN Public Uploader is an extension to NextGEN Gallery which allows frontend image uploads for your users.
 
@@ -71,6 +71,14 @@ If you have installed NextGEN Gallery, please make sure that it is activated.
 
 == Changelog ==
 
+= V1.8.1 - 11.14.2013 =
+* Fix old php version bug with empty()
+
+= V1.8 - 11.14.2013 =
+* Converted widget to proper widget class extension.
+* Better translation support, including changed textdomain to match WP3.7 translation changes.
+* Translation pot file.
+
 = V1.7 - 10.5.2012 =
 * Confirmed Working: Tested with latest versions of NextGen and WordPress, everything works fine
 * Moved settings menu: The menu now righfully resides as a sub-item of Gallery
@@ -127,5 +135,8 @@ If you have installed NextGEN Gallery, please make sure that it is activated.
 NextGEN Public Uploader is distributed under an open source license called the GNU General Public License, or GPL. The text of the license is distributed with every copy of this plugin.
 
 == Upgrade Notice ==
+
+* Completely different widget registration method in version 1.8. If you use the Widget uploader, you'll probably want to re-add and re-set the gallery.
+* Translators. We switched to a new text-domain to align with the WordPress 3.7 translation changes. We also provided a pot file to use.
 
 Before upgrading NextGEN Public Uploader please remember to backup your database and files.
