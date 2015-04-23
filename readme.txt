@@ -10,6 +10,8 @@ NextGEN Public Uploader is an extension to NextGEN Gallery which allows frontend
 
 == Description ==
 
+NextGEN Public Uploader does not officially support NextGEN Gallery 2.0.x at present time.
+
 The NextGEN Public Uploader plugin for WordPress allows users to upload images from the frontend of your website to a specified gallery in NextGEN. Upon upload the submitted image is marked as "excluded" and an email notification will be sent letting you know an image is waiting to be reviewed.
 
 REMEMBER: Always backup your database!
